@@ -1,69 +1,8 @@
 <html>
 <head>
-  <script>
-    // shamelessly borrowed from: https://stackoverflow.com/a/42281973/1188090
-    
-    var playbackSpeeds = [1, .5, .25];
-    var playCount = 0;
-
-    // Load the IFrame Player API code asynchronously.
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/player_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-    var videoId = 'hr1plibwDPA';
-    var startSeconds = 41;
-    var endSeconds = 44;
-
-    // Replace the 'ytplayer' element with an <iframe> and
-    // YouTube player after the API code downloads.
-    var player;
-
-    var playerConfig = {
-      height: '100%',
-      width: '100%',
-      videoId: videoId,
-      playerVars: {
-        autoplay: 1,       // Auto-play the video on load
-        controls: 0,       // Show pause/play buttons in player
-        showinfo: 0,       // Hide the video title
-        modestbranding: 1, // Hide the Youtube Logo
-        fs: 1,             // Hide the full screen button
-        cc_load_policy: 0, // Hide closed captions
-        iv_load_policy: 3, // Hide the Video Annotations
-        start: startSeconds,
-        end: endSeconds,
-        // autohide: 1,    // Hide video controls when playing
-      },
-      events: {
-        'onStateChange': onStateChange
-      }
-    };
-
-    function onYouTubePlayerAPIReady() {
-      player = new YT.Player('ytplayer', playerConfig);
-      debugger;
-    }
-
-    function onStateChange(state) {
-      if (state.data === YT.PlayerState.PLAYING) {
-        player.setPlaybackRate(playbackSpeeds[playCount]);
-      }
-      if (state.data === YT.PlayerState.ENDED) {
-        playCount = (playCount + 1) % playbackSpeeds.length;
-        console.log(playCount);
-        // player.loadVideoById({
-        //   videoId: videoId,
-        //   startSeconds: startSeconds,
-        //   endSeconds: endSeconds
-        // });
-        player.seekTo(startSeconds)
-      }
-    }
-  </script>
+  <script></script>
 </head>
 <body>
-  <div id="ytplayer"></div></div>
+
 </body>
 </html>
