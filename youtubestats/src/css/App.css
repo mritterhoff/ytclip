@@ -1,0 +1,12 @@
+#ytplayer {
+  width: 400px;
+  height: 225px;
+}
+
+#textArea {
+  border: solid 1px grey;
+  width: 400px;
+}
+span {
+  display: block;
+}
