@@ -31,7 +31,7 @@ class App extends React.Component {
   render() {
     return (
       <div className={ClassNames({ App: true, Debug: false })}>
-        <YouTubePlayer/>
+        <YouTubePlayer />
       </div>
     );
   }

@@ -1,19 +1,15 @@
 import React from 'react';
 // import ClassNames from 'classnames';
 
-let playbackSpeeds = [
-  {
-    speed: 1,
-    start: 37,
-    end: 50
-  },
-  {
-    speed: 0.25,
-    start: 40,
-    end: 44
-  }
-];
-let player, playCount = 0;
+import EventLog from './EventLog';
+
+const settings = {
+  speed: 1,
+  start: 37,
+  end: 50
+};
+
+let player;
 
 function getStateName(state) {
   const names = {
@@ -27,91 +23,103 @@ function getStateName(state) {
   return `State: ${state} ${names[state]}`;
 }
 
+const teammates = 'Andrew Avi Chris Hoff Jiyu Mark Sue'.split(' ');
+
 
 class YouTubePlayer extends React.Component {
   constructor() {
     super();
-    console.log('in constructor')
+    console.log('in constructor');
+    this.state = {
+      events: []
+    };
     window.onYouTubePlayerAPIReady = this.onYouTubePlayerAPIReady.bind(this);
   }
 
   // shamelessly borrowed from: https://stackoverflow.com/a/42281973/1188090
-// https://developers.google.com/youtube/iframe_api_reference
-// https://developers.google.com/youtube/player_parameters?playerVersion=HTML5
+  // https://developers.google.com/youtube/iframe_api_reference
+  // https://developers.google.com/youtube/player_parameters?playerVersion=HTML5
 
 
-
-
-onStateChange(state) {
-  console.log(getStateName(state.data));
-  if (state.data === window.YT.PlayerState.PLAYING) {
-    console.log(`updating speed to: ${playbackSpeeds[playCount].speed}`);
-    player.setPlaybackRate(playbackSpeeds[playCount].speed);
+  onStateChange = (state) => {
+    console.log(getStateName(state.data));
   }
-}
 
-onPlayerReady(event) {
-  event.target.playVideo();
-}
+  onPlayerReady = (event) => {
+    event.target.playVideo();
+  }
 
-getInitialConfigs(options) {
-  console.log('getting configs!', options);
-  return {
-    // height: '100%',
-    // width: '100%',
-    videoId: 'hr1plibwDPA',
-    playerVars: {
-      // controls: 0, // Show pause/play buttons in player
-      // showinfo: 0, // Hide the video title
-      modestbranding: 1, // Hide the Youtube Logo
-      // fs: 1, // Hide the full screen button
-      cc_load_policy: 0, // Hide closed captions
-      iv_load_policy: 3, // Hide the Video Annotations
-      start: options.start,
-      end: options.end,
-      autohide: 0 // Hide video controls when playing
-    },
-    events: {
-      onReady: this.onPlayerReady.bind(this),
-      onStateChange: this.onStateChange.bind(this)
-    }
-  };
-}
-
-
-// Replace the 'ytplayer' element with an <iframe> and YouTube player after the API code downloads.
-onYouTubePlayerAPIReady() {
-  player = new window.YT.Player('ytplayer', this.getInitialConfigs(playbackSpeeds[playCount]));
-  alert('got called!');
-
-  // In order to avoid cueing a new video, add an interval time to check the time every 100ms real time. Once end time is reached, will increment playCount and seek to new start
-  setInterval(() => {
-    if (player.getCurrentTime) { // not initially available
-      const time = player.getCurrentTime();
-      // console.log(time);
-      if (time >= playbackSpeeds[playCount].end) {
-        console.log('Switching to next speed');
-        playCount = (playCount + 1) % playbackSpeeds.length;
-        player.seekTo(playbackSpeeds[playCount].start);
+  getInitialConfigs(options) {
+    console.log('getting configs!', options);
+    return {
+      videoId: 'hr1plibwDPA',
+      playerVars: {
+        modestbranding: 1, // Hide the Youtube Logo
+        cc_load_policy: 0, // Hide closed captions
+        iv_load_policy: 3, // Hide the Video Annotations
+        start: options.start,
+        end: options.end,
+        autohide: 0 // Hide video controls when playing
+      },
+      events: {
+        onReady: this.onPlayerReady,
+        onStateChange: this.onStateChange
       }
-    }
-  }, 100);
-}
+    };
+  }
 
-  printTime() {
-    const textArea = document.getElementById('textArea');
-    const newSpan = document.createElement('span');
-    newSpan.innerHTML = player.getCurrentTime().toFixed(2);
-    textArea.prepend(newSpan);
+  // Replace the 'ytplayer' element with an <iframe> and YouTube player after the API code downloads.
+  onYouTubePlayerAPIReady() {
+    player = new window.YT.Player('ytplayer', this.getInitialConfigs(settings));
+    console.log('onYouTubePlayerAPIReady got called!');
+
+    // In order to avoid cueing a new video, add an interval time to check the time every 100ms real time. Once end time is reached, will increment playCount and seek to new start
+    setInterval(() => {
+      if (player.getCurrentTime) { // not initially available
+        const time = player.getCurrentTime();
+        if (time >= settings.end) {
+          console.log('looping');
+          player.seekTo(settings.start);
+        }
+      }
+    }, 100);
+  }
+
+  saveEvent = (teammate) => {
+    const time = player.getCurrentTime().toFixed(2);
+    this.setState(prevState => ({
+      events: [ ...prevState.events, {
+        teammate: teammate,
+        time: time
+      } ]
+    }));
+  }
+
+  seekTo = (time) => {
+    player.seekTo(time);
+    console.log(`seeked to ${time}`);
   }
 
   render() {
     return (
       <div>
-        <div id='ytplayer'/>
-        <button id='button1' onClick={this.printTime}>Print time</button>
+        <div id='ytplayer' />
+        <Controls teammates={teammates} saveEvent={this.saveEvent} />
         <br />
-        <div id='textArea' />
+        <EventLog events={this.state.events} cb={this.seekTo} />
+      </div>
+    );
+  }
+}
+
+class Controls extends React.Component {
+  render() {
+    let key = 0;
+    return (
+      <div>
+        {this.props.teammates.map((tm) => {
+          return <button onClick={() => this.props.saveEvent(tm)} key={key++}>{tm}</button>;
+        })}
       </div>
     );
   }
