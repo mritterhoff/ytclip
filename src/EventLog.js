@@ -23,8 +23,8 @@ class EventLog extends React.Component {
   render() {
     let key = 0;
 
-    let events = this.props.events.map((e, i) => (
-      <Event key={key++} event={e} index={i} seekToCB={this.props.seekToCB} deleteEventCB={this.props.deleteEventCB} />))
+    const events = this.props.events.map((e, i) => (
+      <Event key={key++} event={e} index={i} seekToCB={this.props.seekToCB} deleteEventCB={this.props.deleteEventCB} />));
 
     return (
       <div className={ClassNames({ EventLog: true })}>

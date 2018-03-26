@@ -47,7 +47,7 @@ class YouTubePlayer extends React.Component {
     console.log(getStateName(state.data));
     if (!this.state.loaded && state.data > 0) {
       // we're loaded now!
-      this.setState(() => ({loaded: true}));
+      this.setState(() => ({ loaded: true }));
       this.playerLoaded();
     }
   }
@@ -104,10 +104,10 @@ class YouTubePlayer extends React.Component {
     // In order to avoid cueing a new video, add an interval time to check the time every 100ms real time. Once end time is reached, will increment playCount and seek to new start
     setInterval(() => {
       const time = player.getCurrentTime();
-        if (time >= settings.end) {
-          console.log('looping');
-          player.seekTo(settings.start);
-        }
+      if (time >= settings.end) {
+        console.log('looping');
+        player.seekTo(settings.start);
+      }
     }, 100);
   }
 
