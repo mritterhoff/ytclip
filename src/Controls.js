@@ -23,7 +23,7 @@ class Controls extends React.Component {
       teammate: tm,
       time: time
     }));
-    this.props.setSpeed(0.5);
+    this.props.setSpeed(0.25);
   }
 
   setPlayType = (pt) => {
