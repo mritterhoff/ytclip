@@ -1,6 +1,6 @@
 #ytplayer {
-  width: 400px;
-  height: 225px;
+  width: 600px;
+  height: 340px;
 }
 
 #textArea {
@@ -9,4 +9,47 @@
 }
 span {
   display: block;
+}
+
+.controls {
+  height: 4em;
+}
+
+.EventLog {
+  min-height: 1em;
+  min-width: 300px;
+  border: 1px dotted grey;
+}
+
+button.selected {
+  background: lightgrey;
+}
+
+.event * {
+  display: inline;
+}
+
+.event:hover {
+  background-color: lightyellow
+}
+
+.event .buttonContainer {
+  min-width: 2em;
+  display: inline-block;
+  font-size: smaller;
+  max-height: 1em;
+}
+
+
+.event:hover button {
+  display: inline-block;
+}
+
+.event button {
+  display: none;
+}
+
+
+.event {
+  padding: .2em;
 }

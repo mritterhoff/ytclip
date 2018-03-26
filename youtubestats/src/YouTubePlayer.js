@@ -2,11 +2,12 @@ import React from 'react';
 // import ClassNames from 'classnames';
 
 import EventLog from './EventLog';
+import Controls from './Controls';
 
 const settings = {
   speed: 1,
-  start: 37,
-  end: 50
+  start: 1,
+  end: 500
 };
 
 let player;
@@ -31,7 +32,8 @@ class YouTubePlayer extends React.Component {
     super();
     console.log('in constructor');
     this.state = {
-      events: []
+      events: [],
+      loaded: false
     };
     window.onYouTubePlayerAPIReady = this.onYouTubePlayerAPIReady.bind(this);
   }
@@ -43,6 +45,11 @@ class YouTubePlayer extends React.Component {
 
   onStateChange = (state) => {
     console.log(getStateName(state.data));
+    if (!this.state.loaded && state.data > 0) {
+      // we're loaded now!
+      this.setState(() => ({loaded: true}));
+      this.playerLoaded();
+    }
   }
 
   onPlayerReady = (event) => {
@@ -52,7 +59,7 @@ class YouTubePlayer extends React.Component {
   getInitialConfigs(options) {
     console.log('getting configs!', options);
     return {
-      videoId: 'hr1plibwDPA',
+      videoId: '5yLNyTucIfc',
       playerVars: {
         modestbranding: 1, // Hide the Youtube Logo
         cc_load_policy: 0, // Hide closed captions
@@ -72,27 +79,20 @@ class YouTubePlayer extends React.Component {
   onYouTubePlayerAPIReady() {
     player = new window.YT.Player('ytplayer', this.getInitialConfigs(settings));
     console.log('onYouTubePlayerAPIReady got called!');
-
-    // In order to avoid cueing a new video, add an interval time to check the time every 100ms real time. Once end time is reached, will increment playCount and seek to new start
-    setInterval(() => {
-      if (player.getCurrentTime) { // not initially available
-        const time = player.getCurrentTime();
-        if (time >= settings.end) {
-          console.log('looping');
-          player.seekTo(settings.start);
-        }
-      }
-    }, 100);
   }
 
-  saveEvent = (teammate) => {
-    const time = player.getCurrentTime().toFixed(2);
-    this.setState(prevState => ({
-      events: [ ...prevState.events, {
-        teammate: teammate,
-        time: time
-      } ]
-    }));
+  // save the given event in chrono order
+  saveEvent = (event) => {
+    this.setState((prevState) => {
+      const { events } = prevState;
+      events.push(event);
+      events.sort((a, b) => a.time - b.time);
+      return events;
+    });
+  }
+
+  setSpeed = (speed) => {
+    player.setPlaybackRate(speed);
   }
 
   seekTo = (time) => {
@@ -100,26 +100,44 @@ class YouTubePlayer extends React.Component {
     console.log(`seeked to ${time}`);
   }
 
+  playerLoaded = () => {
+    // In order to avoid cueing a new video, add an interval time to check the time every 100ms real time. Once end time is reached, will increment playCount and seek to new start
+    setInterval(() => {
+      const time = player.getCurrentTime();
+        if (time >= settings.end) {
+          console.log('looping');
+          player.seekTo(settings.start);
+        }
+    }, 100);
+  }
+
+  deleteEvent = (indexToDelete) => {
+    this.setState((prevState) => {
+      const { events } = prevState;
+      events.splice(indexToDelete, 1);
+      return events;
+    });
+  }
+
+  getTime = () => player.getCurrentTime().toFixed(2);
+
   render() {
     return (
       <div>
         <div id='ytplayer' />
-        <Controls teammates={teammates} saveEvent={this.saveEvent} />
+        <Controls
+          teammates={teammates}
+          saveEvent={this.saveEvent}
+          getTime={this.getTime}
+          setSpeed={this.setSpeed}
+          enabled={this.state.loaded}
+        />
         <br />
-        <EventLog events={this.state.events} cb={this.seekTo} />
-      </div>
-    );
-  }
-}
-
-class Controls extends React.Component {
-  render() {
-    let key = 0;
-    return (
-      <div>
-        {this.props.teammates.map((tm) => {
-          return <button onClick={() => this.props.saveEvent(tm)} key={key++}>{tm}</button>;
-        })}
+        <EventLog
+          events={this.state.events}
+          seekToCB={this.seekTo}
+          deleteEventCB={this.deleteEvent}
+        />
       </div>
     );
   }

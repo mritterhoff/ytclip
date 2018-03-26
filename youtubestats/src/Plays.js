@@ -5,54 +5,22 @@ const Side = {
 };
 
 class PlayType {
-  constructor(value, side) {
-    this.value = value;
+  constructor(side, ...results) {
     this.side = side;
+    this.results = results;
   }
 }
 
 const PlayTypes = {
-  'Serve': new PlayType(0, Side.Offense),
-  'Hit': new PlayType(1, Side.Offense),
-  'Set': new PlayType(2, Side.Offense),
-  'Serve Receive': new PlayType(3, Side.Defense),
-  'Block': new PlayType(4, Side.Defense),
-  'Dig': new PlayType(5, Side.Defense),
-  'Pass': new PlayType(6, Side.Defense)
+  'Serve': new PlayType(Side.Offense, 'Ace', 'OOS', 'Error', 'Other'),
+  'Hit': new PlayType(Side.Offense, 'Kill', 'OOS', 'Error', 'Other'),
+  'Set': new PlayType(Side.Offense, 'Hittable', 'Error', 'Other'),
+  'Serve Receive': new PlayType(Side.Defense, 'Settable', 'Error', 'Other'),
+  'Block': new PlayType(Side.Defense, 'Kill', 'Error', 'Missed', 'Other'),
+  'Dig': new PlayType(Side.Defense, 'Settable', 'Error', 'Missed', 'Other'),
+  'Pass': new PlayType(Side.Defense, 'Settable', 'Error', 'Other')
 };
 
-// const Plays = {
 
-// }
+export default PlayTypes;
 
-// Service Ace
-// Service OOS
-// Service Error
-// Other
-
-// Hit Kill
-// Hit OOS
-// Hit Error
-// Other
-
-// Set Hittable
-// Set Error
-// Other
-
-// Serve Receive Settable
-// Serve Receive Error
-// Other
-
-// Block Kills
-// Blocking Error
-// Missed Blocks
-// Other
-
-// Dig Settable
-// Dig Error
-// Missed Digs
-// Other
-
-// Pass Settable
-// Pass Error
-// Other
