@@ -7,11 +7,8 @@
 # testing
 /coverage
 
-# production
-/client/build
-
-# don't expose database
-splitmycheck.db
+# don't commit built files (github will build them)
+/build
 
 # misc
 .DS_Store
