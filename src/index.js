@@ -12,5 +12,5 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 // if we're developing locally, change page title to reflect that
 if (window.location.hostname === 'localhost') {
-  document.querySelector('title').innerHTML = 'DEV youtube stats';
+  document.querySelector('title').innerHTML = 'DEV youtube clip';
 }

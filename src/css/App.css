@@ -1,65 +1,17 @@
-#ytplayer {
-  width: 600px;
-  height: 340px;
+#ytplayer, video, iframe  {
+  width: 100vw;
+  height: calc(100vw/1.77777778);
 }
 
 #textArea {
   border: solid 1px grey;
   width: 400px;
 }
-span {
-  display: block;
-}
 
 .controls {
   height: 4em;
 }
 
-.EventLog {
-  min-height: 1em;
-  min-width: 300px;
-  border: 1px dotted grey;
-}
-
-button.selected {
-  background: lightgrey;
-}
-
-.event * {
-  display: inline;
-}
-
-.event:hover {
-  background-color: lightyellow
-}
-
-.event .buttonContainer {
-  min-width: 2em;
-  display: inline-block;
-  font-size: smaller;
-  max-height: 1em;
-}
-
-
-.event:hover button {
-  display: inline-block;
-}
-
-.event button {
-  display: none;
-}
-
-
-.event {
-  padding: .2em;
-}
-
-body {
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
-  font-size: 20px;
-  background: #1e1f20;
-  color: #eee;
-}
 
 h1 {
   font-weight: 400;
@@ -71,4 +23,9 @@ button {
   color: white;
   border: none;
   font-size: inherit;
+}
+
+div#debug span {
+  display: inline-block;
+  margin: .2em;
 }

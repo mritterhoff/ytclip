@@ -2,7 +2,7 @@
   "name": "YoutubeStats",
   "version": "0.1.0",
   "private": true,
-  "homepage" : "http://myname.github.io/youtubestats",
+  "homepage": "http://myname.github.io/youtubestats",
   "dependencies": {
     "bootstrap": "4",
     "classnames": "2.2.5",
