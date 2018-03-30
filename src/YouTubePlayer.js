@@ -20,13 +20,22 @@ function getStateName(state) {
 }
 
 class YouTubePlayer extends React.Component {
+  loadedPromise = null;
+  isNowLoaded = null;
+
   constructor() {
     super();
-    console.log('in constructor');
     this.state = {
-      loaded: false,
       player: undefined
     };
+
+    // this is better than checking playbackrate every 100ms like the following:
+    // if (this.state.player.getPlaybackRate() !== this.props.rate) {
+    //   this.setSpeed(this.props.rate || 1);
+    // }
+    this.loadedPromise = new Promise((resolve) => { this.isNowLoaded = resolve; })
+      .then(() => { this.playerLoaded(); });
+
     window.onYouTubePlayerAPIReady = this.onYouTubePlayerAPIReady.bind(this);
   }
 
@@ -51,10 +60,11 @@ class YouTubePlayer extends React.Component {
 
   onStateChange = (state) => {
     console.log(getStateName(state.data));
-    if (!this.state.loaded && state.data > 0) {
-      this.setState(() => ({ loaded: true }));
-      this.playerLoaded();
-      this.setSpeed(this.props.rate || 1);
+
+    // only call this once
+    if (this.isNowLoaded && state.data > 0) {
+      this.isNowLoaded();
+      this.isNowLoaded = null;
     }
   }
 
@@ -84,9 +94,9 @@ class YouTubePlayer extends React.Component {
     }, 100);
   }
 
-  getTime = () => this.state.player.getCurrentTime().toFixed(2);
-
   render() {
+    this.loadedPromise = this.loadedPromise.then(() => this.setSpeed(this.props.rate || 1));
+
     return (
       <div>
         <div id='ytplayer' />

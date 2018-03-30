@@ -12,7 +12,6 @@
   height: 4em;
 }
 
-
 h1 {
   font-weight: 400;
 }
@@ -23,6 +22,12 @@ button {
   color: white;
   border: none;
   font-size: inherit;
+}
+
+button:focus {outline:0;}
+
+button.active {
+  background: darkred;
 }
 
 div#debug span {

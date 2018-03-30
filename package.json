@@ -1,8 +1,8 @@
 {
-  "name": "Youtube Clips",
+  "name": "YoutubeClips",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://myname.github.io/ytclip",
+  "homepage": "http://mritterhoff.github.io/ytclip",
   "dependencies": {
     "bootstrap": "4",
     "classnames": "2.2.5",
