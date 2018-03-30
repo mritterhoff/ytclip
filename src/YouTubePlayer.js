@@ -95,7 +95,7 @@ class YouTubePlayer extends React.Component {
   }
 
   // https://github.com/gajus/react-youtube-player/blob/master/src/index.js
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.player.destroy();
   }
 
@@ -111,4 +111,22 @@ class YouTubePlayer extends React.Component {
 }
 
 
-export default YouTubePlayer;
+class LoopingYoutubeVideo extends React.Component {
+  render() {
+    const params = this.props.urlMap;
+    return (
+      <div>
+        <YouTubePlayer
+          videoId={params.v}
+          start={params.s}
+          end={params.s + params.d}
+          rate={params.r}
+          fullScreen // TODO use this in YouTubePlayer
+        />
+      </div>
+    );
+  }
+}
+
+
+export default LoopingYoutubeVideo;
