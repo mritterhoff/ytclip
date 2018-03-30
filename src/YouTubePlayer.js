@@ -94,6 +94,11 @@ class YouTubePlayer extends React.Component {
     }, 100);
   }
 
+  // https://github.com/gajus/react-youtube-player/blob/master/src/index.js
+  componentWillUnmount () {
+    this.player.destroy();
+  }
+
   render() {
     this.loadedPromise = this.loadedPromise.then(() => this.setSpeed(this.props.rate || 1));
 
