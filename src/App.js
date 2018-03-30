@@ -11,9 +11,6 @@ import './css/App.css';
   http://localhost:3000/?id=pI4T4C75H0U&s=1651&d=4&r=.25
   http://localhost:3000/?v=pI4T4C75H0U&s=2532&d=7.5&r=.75
   https://mritterhoff.github.io/ytclip/?d=7.5&r=.75&s=2532&v=pI4T4C75H0U
-
-  https://www.youtube.com/watch?v=K8P8uFahAgc
-  https://youtu.be/K8P8uFahAgc?t=6
 */
 
 // https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
