@@ -56,12 +56,12 @@ class App extends React.Component {
     if (Object.keys(urlMap).length >= 3) {
       return (
         <div>
+          <SpeedButtons rate={urlMap.r} callback={this.updateURL} />
+          <LoopingYoutubeVideo urlMap={urlMap} />
           <div id='debug' style={{float: 'right'}}>
             <span>Debug info:</span>
             {Object.keys(urlMap).map(k => <span key={k}>{k}: {urlMap[k]}</span>)}
           </div>
-          <SpeedButtons rate={urlMap.r} callback={this.updateURL} />
-          <LoopingYoutubeVideo urlMap={urlMap} />;
         </div>
       );
     }
@@ -74,7 +74,6 @@ class App extends React.Component {
           <li>TODO</li>
         </ul>
         <YoutTubeIDExtractor />
-
       </div>
     );
   }
