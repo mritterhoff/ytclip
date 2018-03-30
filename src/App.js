@@ -57,6 +57,9 @@ class App extends React.Component {
       return (
         <div>
           <SpeedButtons rate={urlMap.r} callback={this.updateURL} />
+          <span id='youtubeLink'>
+            <a href={`https://youtu.be/${urlMap.v}?t=${urlMap.s}`}>Open in Youtube</a>
+          </span>
           <LoopingYoutubeVideo urlMap={urlMap} />
           <div id='debug' style={{float: 'right'}}>
             <span>Debug info:</span>
@@ -86,7 +89,7 @@ class SpeedButtons extends React.Component {
     const selectedRate = this.props.rate;
     console.log('selectedRate', selectedRate);
     return (
-      <div>
+      <div id='speedButtons'>
         {this.rates.map(r => (
           <button
             className={ClassNames({ active: selectedRate === r })}

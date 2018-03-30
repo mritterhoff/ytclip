@@ -17,12 +17,23 @@ h1 {
 }
 
 button {
-  padding: 8px 16px;
+  padding: .5em 1em;
   background: crimson;
   color: white;
   border: none;
   font-size: inherit;
 }
+
+span#youtubeLink {
+  float: right;
+  padding: .5em;
+}
+
+div#speedButtons {
+  display: inline-block;
+}
+
+
 
 button:focus {outline:0;}
 
