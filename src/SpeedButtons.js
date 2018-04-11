@@ -1,7 +1,6 @@
 import React from 'react';
 import ClassNames from 'classnames';
 
-
 const rates = [ 0.25, 0.5, 0.75, 1 ];
 
 class SpeedButtons extends React.Component {
