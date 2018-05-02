@@ -24,18 +24,21 @@ class VideoIDInput extends React.Component {
 }
 
 function extract(url) {
-  if (url.match(/^(?:https?:\/\/)?www.youtube.com/)) {
+  // http://youclipper.com/?d=7.5&r=.75&s=2532&v=pI4T4C75H0U
+  // 
+  if (url.match(/^(?:https?:\/\/)?www.youtube.com/) || url.match(/^https?:\/\/youclipper.com\//)) {
     const vidMatch = url.match(/v=([A-Za-z0-9-]+)/);
     if (vidMatch) {
       return vidMatch[2];
     }
   }
-  if (url.match(/^https?:\/\/youtu.be\//)) {
-    const vidMatch = url.match(/https?:\/\/youtu.be\/([A-Za-z0-9-]+)/);
+  else if (url.match(/^https?:\/\/youtu.be\//)) {
+    const vidMatch = url.match(/^https?:\/\/youtu.be\/([A-Za-z0-9-]+)/)
     if (vidMatch) {
       return vidMatch[1];
     }
   }
+
   return undefined;
 }
 

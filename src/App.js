@@ -8,9 +8,9 @@ import ClipPlayer from './ClipPlayer';
 import './css/App.css';
 
 /* test:
-  http://localhost:3000/?v=pI4T4C75H0U&s=1651&d=4&r=.25
   http://localhost:3000/?v=pI4T4C75H0U&s=2532&d=7.5&r=.75
   https://mritterhoff.github.io/ytclip/?d=7.5&r=.75&s=2532&v=pI4T4C75H0U
+  http://youclipper.com/?d=7.5&r=.75&s=2532&v=pI4T4C75H0U
 */
 
 
@@ -19,7 +19,7 @@ const paramParserMap = {
   v: (v) => v,
   s: (s) => {
     let mm_ss = s.split(':');
-    return mm_ss.length == 1 ? Number(s) : Number(mm_ss[0])*60 + Number(mm_ss[1]);
+    return mm_ss.length === 1 ? Number(s) : Number(mm_ss[0])*60 + Number(mm_ss[1]);
   },
   d: (d) => Number(d),
   r: (r) => Number(r)

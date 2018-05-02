@@ -1,0 +1,52 @@
+6 6 
+3 5 5 3 
+4 6 6 4 
+2 8 8 2 
+6 6 
+
+Smith 2 
+Jones 5 
+Davis 6 
+Wilson 100 
+Johnson 3 
+Williams 4 
+Brown 8 
+Miller 12 
+
+4 6 
+3 5 5 3 
+4 6 6 4 
+2 8 8 2 
+6 6 
+
+// insight: don't have to seat in order, should prioritize requests that fill sections towards front:
+best: seatsReq == section amount 
+then: sec is full by multiple bookings
+then: there are open seats
+
+class Theatre {
+  private int[][] seating;
+  int seatsLeft;
+
+  Theatre(int[][] seating) {
+    this.seating = seating;
+    for (int row = 0; row < seating.length; row++) {
+      for (int sec = 0; sec < seating[row].length; sec++) {
+        this.seatsLeft += seating[row][sec];
+      }
+    }
+  }
+
+  String processRequest(String name, int reqSeats) {
+    if (return seatsLeft < requestedSeatCount) {
+      return name + " Sorry, we can't handle your party.";
+    }
+
+
+
+
+  }
+
+
+
+}
